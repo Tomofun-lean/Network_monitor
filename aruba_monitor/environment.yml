@@ -1,0 +1,18 @@
+name: aruba-monitor
+channels:
+  - conda-forge
+dependencies:
+  # ── Python runtime ─────────────────────────
+  - python =3.12
+  # ── 基本工具 ───────────────────────────────
+  - pip
+  - git
+  # ── SSH / SNMP / Web ──────────────────────
+  - pip:
+      - paramiko            # SSH CLI 解析
+      - flask               # Prometheus exporter HTTP
+      - pysnmp              # 如將來要自己寫 SNMP client
+      - prometheus-client   # 輸出 metrics（如果你不用 flask 也行）
+      - pyyaml              # 讀寫 YAML
+      - rich                # CLI 彩色輸出 (可選)
+      - docker-compose      # 容器管理 (可選) 

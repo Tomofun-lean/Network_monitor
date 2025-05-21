@@ -1,0 +1,45 @@
+modules:
+  aruba_ap:
+    walk:
+      # 實際 Aruba OID，這些需要根據實際環境進行調整
+      - 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.1  # radioUtil
+      - 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.2  # txBytes
+      - 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.3  # rxBytes
+      - 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.4  # cpuUtilization
+      - 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.5  # memoryUtilization
+    metrics:
+      - name: aruba_radio_util_percent
+        help: "Radio Utilization (%)"
+        type: gauge
+        oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.1
+        indexes:
+          - labelname: instance
+            type: Integer32
+      - name: aruba_tx_bytes_total
+        help: "Total transmitted bytes"
+        type: counter
+        oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.2
+        indexes:
+          - labelname: instance
+            type: Integer32
+      - name: aruba_rx_bytes_total
+        help: "Total received bytes"
+        type: counter
+        oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.3
+        indexes:
+          - labelname: instance
+            type: Integer32
+      - name: aruba_cpu_util_percent
+        help: "CPU Utilization (%)"
+        type: gauge
+        oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.4
+        indexes:
+          - labelname: instance
+            type: Integer32
+      - name: aruba_memory_util_percent
+        help: "Memory Utilization (%)"
+        type: gauge
+        oid: 1.3.6.1.4.1.14823.2.2.1.5.2.1.1.5
+        indexes:
+          - labelname: instance
+            type: Integer32 

@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  aruba_cli_exporter:
+    build:
+      context: ./exporter
+      args:
+        MODE: real
+    volumes:
+      - ./ap_config.json:/config/ap_config.json:ro
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  fake_aruba_exporter:
+    build:
+      context: ./exporter
+      args:
+        MODE: fake
+    ports:
+      - "9131:9131"
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  snmp_exporter:
+    image: prom/snmp-exporter:latest
+    volumes:
+      - ./grafana_prom/snmp.yml:/etc/snmp_exporter/snmp.yml:ro
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./grafana_prom/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./grafana_prom/targets.json:/etc/prometheus/targets.json:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana_prom/dashboards:/etc/grafana/provisioning/dashboards:ro
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-clock-panel
+    ports:
+      - "3001:3000"
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data: 

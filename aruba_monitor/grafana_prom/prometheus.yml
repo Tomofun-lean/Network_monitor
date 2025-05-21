@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 60s
+  evaluation_interval: 60s
+
+scrape_configs:
+  - job_name: 'aruba-cli'
+    static_configs:
+      - targets: ['aruba_cli_exporter:9130']
+
+  - job_name: 'aruba-fake'
+    static_configs:
+      - targets: ['fake_aruba_exporter:9131']
+
+  - job_name: 'aruba-snmp'
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    file_sd_configs:
+      - files:
+        - '/etc/prometheus/targets.json'
+    metrics_path: /snmp
+    params:
+      module: [aruba_ap]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 'snmp_exporter:9116' 
