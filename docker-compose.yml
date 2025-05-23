@@ -8,17 +8,8 @@ services:
         MODE: real
     volumes:
       - ./ap_config.json:/config/ap_config.json:ro
-    networks:
-      - monitoring
-    restart: unless-stopped
-
-  fake_aruba_exporter:
-    build:
-      context: ./exporter
-      args:
-        MODE: fake
     ports:
-      - "9131:9131"
+      - "9130:9130"
     networks:
       - monitoring
     restart: unless-stopped

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "FW535",
+    "ip": "172.17.1.7",
+    "username": "admin",
+    "password": "Tomo@@72"
+  },
+  {
+    "name": "LN535", 
+    "ip": "172.17.1.8",
+    "username": "admin",
+    "password": "Tomo@@72"
+  },
+  {
+    "name": "BA535",
+    "ip": "172.17.1.6",
+    "username": "admin",
+    "password": "Tomo@@72"
+  },
+  {
+    "name": "kiki",
+    "ip": "172.17.1.11",
+    "username": "admin",
+    "password": "Tomo@@72"
+  }
+] 
